@@ -50,6 +50,7 @@ settings:
   print_commands: false # Print command or not (Optional, default: false)
   capture_output: false # Capture output of the commands (Optional, default: false)
   exit_on_error: true   # Exit on error in commands (Optional, default: false)
+  kotomei: true         # Warn you about letting @kotomei study for his exam or not (Optional, default: true)
 
 events:
   common: |
@@ -61,7 +62,7 @@ events:
     SENDER=$(get_prop '.sender.login');
     SENDER_ID=$(get_prop '.sender.id');
   all: echo "This command will be executed in all the events, the current event is {event}";
-  push: echo "User \"{SENDER}\" with ID \"{SENDER_ID}\" pushed to this repository";
+  push: echo "User \"${SENDER}\" with ID \"${SENDER_ID}\" pushed to this repository";
   watch: |
     ACTION=$(get_prop '.action');
     echo "GitHub user \"${SENDER}\" with ID \"${SENDER_ID}\" ${ACTION} watching this repository";
@@ -92,6 +93,21 @@ location /hook {
 }
 ```
 
+Docker
+------
+
+1. To use trigger with docker, pull the image first:
+    ```bash
+    docker pull kaymw/trigger
+    ```
+2. Prepare your configuration as mentioned above.
+3. Start the container
+    ```bash
+    docker run --volume $PWD:/work trigger trigger --config trigger.yaml
+    ```
+Note: In this docker image, trigger's default working directory is `/work`, and the default port is `4567`.
+
+Credit: @musnow
        
 Other Snippets
 --------------

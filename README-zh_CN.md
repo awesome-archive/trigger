@@ -67,6 +67,7 @@ settings:
   print_commands: false # 是否打印命令（可选，默认为否）
   capture_output: false # 是否捕捉命令的输出（可选，默认为否）
   exit_on_error: true   # 是否在命令出错时退出（可选，命令为否）
+  kotomei: true         # 是否提醒你去提醒 @kotomei 去准备考试（可选，默认为是）
 
 events:
   common: |
@@ -108,6 +109,22 @@ location /hook {
     proxy_pass http://0.0.0.0:4567/;
 }
 ```
+
+Docker
+------
+
+1. 如果要在 Docker 中使用 trigger，先从 Docker Hub 获取镜像：
+    ```bash
+    docker pull kaymw/trigger
+    ```
+2. 像正常情况那样准备配置文件。
+3. 启动容器：
+    ```bash
+    docker run --volume $PWD:/work trigger trigger --config trigger.yaml
+    ```
+注意：这个 Docker 镜像的默认工作路径是 `/work`，默认端口为 `4567`，建议使用逆向代理程序代理。
+
+感谢: @musnow
 
        
 其它 Snippets
